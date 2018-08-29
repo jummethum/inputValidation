@@ -1,4 +1,4 @@
-package de.msg.inputValidation;
+package de.msg.rest;
 
 import java.util.ArrayList;
 

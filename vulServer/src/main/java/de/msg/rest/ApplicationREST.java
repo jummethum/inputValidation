@@ -1,4 +1,4 @@
-package de.msg.inputValidation;
+package de.msg.rest;
 
 import javax.ws.rs.ApplicationPath;
 
@@ -11,7 +11,7 @@ public class ApplicationREST extends ResourceConfig{
 	
 	public ApplicationREST() {
 		property(ServerProperties.BV_SEND_ERROR_IN_RESPONSE, true);
-        packages("de.msg.inputValidation");
+        packages("de.msg.rest");
         register(JacksonFeature.class);
         register(AuthenticationFilter.class);
     }

@@ -5,11 +5,14 @@ import { BrowserModule } from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatButtonModule, MatCheckboxModule, MatGridListModule, MatIconModule, MatInputModule} from '@angular/material';
 import {RouterModule} from '@angular/router';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
   imports: [
     CommonModule,
     BrowserModule,
+    FormsModule,
+    ReactiveFormsModule,
     RouterModule,
     MatButtonModule,
     MatCheckboxModule,

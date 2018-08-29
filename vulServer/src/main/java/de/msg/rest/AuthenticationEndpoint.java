@@ -37,7 +37,7 @@ public class AuthenticationEndpoint {
 			String token = issueToken(username);
 
 			// Return the token on the response
-			return Response.ok(token).build();
+			return Response.ok(new Token(token)).build();
 
 		} catch (Exception e) {
 			return Response.status(Response.Status.FORBIDDEN).build();

@@ -6,7 +6,7 @@ import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.ServerProperties;
 
-@ApplicationPath("inputValidation")
+@ApplicationPath("rest")
 public class ApplicationREST extends ResourceConfig{
 	
 	public ApplicationREST() {

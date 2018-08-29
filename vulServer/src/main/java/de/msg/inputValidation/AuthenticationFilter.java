@@ -1,107 +1,72 @@
 package de.msg.inputValidation;
 
-import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.StringTokenizer;
+import java.io.IOException;
 
-import javax.annotation.security.DenyAll;
-import javax.annotation.security.PermitAll;
-import javax.annotation.security.RolesAllowed;
+import javax.annotation.Priority;
+import javax.ws.rs.Priorities;
 import javax.ws.rs.container.ContainerRequestContext;
-import javax.ws.rs.container.ResourceInfo;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.container.ContainerRequestFilter;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
 
-import org.glassfish.jersey.internal.util.Base64;
-
-/**
- * This filter verify the access permissions for a user based on username and
- * passowrd provided in request
- */
+@Secured
 @Provider
-public class AuthenticationFilter implements javax.ws.rs.container.ContainerRequestFilter {
+@Priority(Priorities.AUTHENTICATION)
+public class AuthenticationFilter implements ContainerRequestFilter {
 
-	@Context
-	private ResourceInfo resourceInfo;
+    private static final String REALM = "example";
+    private static final String AUTHENTICATION_SCHEME = "Bearer";
 
-	private static final String AUTHORIZATION_PROPERTY = "Authorization";
-	private static final String AUTHENTICATION_SCHEME = "Basic";
-	private static final Response ACCESS_DENIED = Response.status(Response.Status.UNAUTHORIZED)
-			.entity("You cannot access this resource").build();
-	private static final Response ACCESS_FORBIDDEN = Response.status(Response.Status.FORBIDDEN)
-			.entity("Access blocked for all users !!").build();
+    @Override
+    public void filter(ContainerRequestContext requestContext) throws IOException {
 
-	@Override
-	public void filter(ContainerRequestContext requestContext) {
-		Method method = resourceInfo.getResourceMethod();
-		// Access allowed for all
-		if (!method.isAnnotationPresent(PermitAll.class)) {
-			// Access denied for all
-			if (method.isAnnotationPresent(DenyAll.class)) {
-				requestContext.abortWith(ACCESS_FORBIDDEN);
-				return;
-			}
+        // Get the Authorization header from the request
+        String authorizationHeader =
+                requestContext.getHeaderString(HttpHeaders.AUTHORIZATION);
 
-			// Get request headers
-			final MultivaluedMap<String, String> headers = requestContext.getHeaders();
+        // Validate the Authorization header
+        if (!isTokenBasedAuthentication(authorizationHeader)) {
+            abortWithUnauthorized(requestContext);
+            return;
+        }
 
-			// Fetch authorization header
-			final List<String> authorization = headers.get(AUTHORIZATION_PROPERTY);
+        // Extract the token from the Authorization header
+        String token = authorizationHeader
+                            .substring(AUTHENTICATION_SCHEME.length()).trim();
 
-			// If no authorization information present; block access
-			if (authorization == null || authorization.isEmpty()) {
-				requestContext.abortWith(ACCESS_DENIED);
-				return;
-			}
+        try {
 
-			// Get encoded username and password
-			final String encodedUserPassword = authorization.get(0).replaceFirst(AUTHENTICATION_SCHEME + " ", "");
+            // Validate the token
+            validateToken(token);
 
-			// Decode username and password
-			String usernameAndPassword = new String(Base64.decode(encodedUserPassword.getBytes()));
-			;
+        } catch (Exception e) {
+            abortWithUnauthorized(requestContext);
+        }
+    }
 
-			// Split username and password tokens
-			final StringTokenizer tokenizer = new StringTokenizer(usernameAndPassword, ":");
-			final String username = tokenizer.nextToken();
-			final String password = tokenizer.nextToken();
+    private boolean isTokenBasedAuthentication(String authorizationHeader) {
 
-			// Verify user access
-			if (method.isAnnotationPresent(RolesAllowed.class)) {
-				RolesAllowed rolesAnnotation = method.getAnnotation(RolesAllowed.class);
-				Set<String> rolesSet = new HashSet<String>(Arrays.asList(rolesAnnotation.value()));
+        // Check if the Authorization header is valid
+        // It must not be null and must be prefixed with "Bearer" plus a whitespace
+        // The authentication scheme comparison must be case-insensitive
+        return authorizationHeader != null && authorizationHeader.toLowerCase()
+                    .startsWith(AUTHENTICATION_SCHEME.toLowerCase() + " ");
+    }
 
-				// Is user valid?
-				if (!isUserAllowed(username, password, rolesSet)) {
-					requestContext.abortWith(ACCESS_DENIED);
-					return;
-				}
-			}
-		}
-	}
+    private void abortWithUnauthorized(ContainerRequestContext requestContext) {
 
-	private boolean isUserAllowed(final String username, final String password, final Set<String> rolesSet) {
-		boolean isAllowed = false;
+        // Abort the filter chain with a 401 status code response
+        // The WWW-Authenticate header is sent along with the response
+        requestContext.abortWith(
+                Response.status(Response.Status.UNAUTHORIZED)
+                        .header(HttpHeaders.WWW_AUTHENTICATE, 
+                                AUTHENTICATION_SCHEME + " realm=\"" + REALM + "\"")
+                        .build());
+    }
 
-		// Step 1. Fetch password from database and match with password in argument
-		// If both match then get the defined role for user from database and continue;
-		// else return isAllowed [false]
-		// Access the database and do this part yourself
-		// String userRole = userMgr.getUserRole(username);
-
-		if (username.equals("alice") && password.equals("secret")) {
-			String userRole = "ADMIN";
-
-			// Step 2. Verify user role
-			if (rolesSet.contains(userRole)) {
-				isAllowed = true;
-			}
-		}
-		return isAllowed;
-	}
+    private void validateToken(String token) throws Exception {
+        // Check if the token was issued by the server and if it's not expired
+        // Throw an Exception if the token is invalid
+    }
 }

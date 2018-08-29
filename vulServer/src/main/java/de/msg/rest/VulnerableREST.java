@@ -17,13 +17,11 @@ import javax.ws.rs.core.Response;
 @Path("/vul")
 public class VulnerableREST {
 
-	@PermitAll
 	@GET
 	public String message() {
 		return "Hello, rest!";
 	}
 
-	@PermitAll
 	@GET
 	@Path("search")
 	public Response search(
@@ -34,7 +32,7 @@ public class VulnerableREST {
 
 	}
 
-	@RolesAllowed("ADMIN")
+	@Secured
 	@GET
 	@Path("employees")
 	@Produces(MediaType.APPLICATION_JSON)

@@ -3,6 +3,7 @@ package de.msg.rest;
 import java.io.IOException;
 
 import javax.annotation.Priority;
+import javax.security.sasl.AuthenticationException;
 import javax.ws.rs.Priorities;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
@@ -10,10 +11,14 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
 
+import de.msg.users.CredentialsService;
+
 @Secured
 @Provider
 @Priority(Priorities.AUTHENTICATION)
 public class AuthenticationFilter implements ContainerRequestFilter {
+	
+	private CredentialsService credentialsService = new CredentialsService();
 
     private static final String REALM = "example";
     private static final String AUTHENTICATION_SCHEME = "Bearer";
@@ -40,7 +45,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
             // Validate the token
             validateToken(token);
 
-        } catch (Exception e) {
+        } catch (AuthenticationException e) {
             abortWithUnauthorized(requestContext);
         }
     }
@@ -65,8 +70,12 @@ public class AuthenticationFilter implements ContainerRequestFilter {
                         .build());
     }
 
-    private void validateToken(String token) throws Exception {
+    private void validateToken(String token) throws AuthenticationException {
         // Check if the token was issued by the server and if it's not expired
         // Throw an Exception if the token is invalid
+    	if (credentialsService.isTokenValid(token)) {
+    		return;
+    	}
+    	throw new AuthenticationException("token invalid");
     }
 }

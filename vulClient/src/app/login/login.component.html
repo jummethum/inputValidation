@@ -1,0 +1,46 @@
+<!-- Application header starts -->
+<div class="app-header">
+  <h1 class="app-heading">{{title}}</h1>
+</div>
+<!-- Application header ends -->
+
+<mat-grid-list cols="3">
+  <mat-grid-tile></mat-grid-tile>
+
+  <mat-grid-tile class='login-element'>
+    <div class="login-container">
+
+      <div class="login-box-header">
+        <h1>Please login with your account</h1>
+      </div>
+
+      <div class="login-box-body">
+
+        <mat-grid-list cols="9" rowHeight="75px">
+          <mat-grid-tile [rowspan]="1" class="login-icon">
+            <mat-icon>lock</mat-icon>
+          </mat-grid-tile>
+          <mat-grid-tile [colspan]="7">
+              <input matInput placeholder="Username" text="text" type="text" [value]="username">
+          </mat-grid-tile>
+        </mat-grid-list>
+
+        <mat-grid-list cols="9" rowHeight="100px">
+          <mat-grid-tile [rowspan]="1"  class="login-icon">
+            <mat-icon>remove_red_eye</mat-icon>
+          </mat-grid-tile>
+          <mat-grid-tile [colspan]="7">
+              <input matInput placeholder="Password" text="password" type="password" [value]="password">
+          </mat-grid-tile>
+        </mat-grid-list>
+
+        <button mat-raised-button class="login-button" (click)="login()">
+          <mat-icon>input</mat-icon> Login
+        </button>
+      </div>
+    </div>
+  </mat-grid-tile>
+  <mat-grid-tile *ngIf="showError">
+    Login attempt unsuccessful!
+  </mat-grid-tile>
+</mat-grid-list>

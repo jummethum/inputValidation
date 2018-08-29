@@ -39,9 +39,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
         // Extract the token from the Authorization header
         String token = authorizationHeader
                             .substring(AUTHENTICATION_SCHEME.length()).trim();
-
         try {
-
             // Validate the token
             validateToken(token);
 

@@ -28,4 +28,11 @@ export class BackendService {
         .set('Authorization', `Bearer ${this.token}`)
     });
   }
+
+  searchEmployee(term: string): Observable<any> {
+    return this.http.get(`${this.url}/vul/search?searchString=${term}`, { responseType: 'text',
+      headers: new HttpHeaders()
+        .set('Authorization', `Bearer ${this.token}`)
+    });
+  }
 }

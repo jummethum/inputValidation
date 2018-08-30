@@ -1,12 +1,15 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EmployeesComponent } from './employees.component';
-import {MatTableModule} from '@angular/material';
+import {MatDividerModule, MatTableModule} from '@angular/material';
+import {RouterModule} from '@angular/router';
 
 @NgModule({
   imports: [
     CommonModule,
-    MatTableModule
+    RouterModule,
+    MatTableModule,
+    MatDividerModule
   ],
   declarations: [EmployeesComponent],
   exports: [EmployeesComponent]

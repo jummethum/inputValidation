@@ -26,3 +26,9 @@
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
+
+<mat-divider></mat-divider>
+<div class="search">
+  <button mat-button ><a [routerLink]="['/search']">Search</a></button>
+</div>
+

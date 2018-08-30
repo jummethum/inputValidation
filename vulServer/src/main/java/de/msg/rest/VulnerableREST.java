@@ -24,8 +24,8 @@ public class VulnerableREST {
 
 	@GET
 	@Path("search")
-	public Response search(
-			@QueryParam("searchString") @NotNull @Size(min = 1, max = 255) @Pattern(regexp = "^[A-Za-z]*$") String term) {
+	@Produces(MediaType.TEXT_HTML)
+	public Response search(@QueryParam("searchString") String term) {
 
 		String output = term + " not found. Please try a differnt search word.";
 		return Response.status(200).entity(output).build();

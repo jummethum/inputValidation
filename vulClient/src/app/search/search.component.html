@@ -1,0 +1,18 @@
+<h1>Employee Search</h1>
+
+<mat-form-field class="search-form-field">
+  <input matInput type="text" placeholder="term" [(ngModel)]="value">
+  <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+    <mat-icon>close</mat-icon>
+  </button>
+</mat-form-field>
+
+<div class="search-form-field">
+  <button mat-button (click)="search()">Search</button>
+</div>
+
+<mat-divider></mat-divider>
+
+<div class="result">
+    <router-outlet></router-outlet>
+</div>

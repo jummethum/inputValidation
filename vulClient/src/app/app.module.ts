@@ -8,6 +8,7 @@ import {EmployeesModule} from './employees/employees.module';
 import {AppRoutingModule} from './app-routing.module';
 import {HttpClientModule} from '@angular/common/http';
 import {BackendService} from './backend.service';
+import {SearchModule} from './search/search.module';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import {BackendService} from './backend.service';
     HttpClientModule,
     AppRoutingModule,
     LoginModule,
-    EmployeesModule
+    EmployeesModule,
+    SearchModule
   ],
   providers: [BackendService],
   bootstrap: [AppComponent]

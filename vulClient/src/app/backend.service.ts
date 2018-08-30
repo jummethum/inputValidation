@@ -8,7 +8,7 @@ export class BackendService {
 
   private url = 'http://localhost:8080/myapp/rest';
 
-  public token = '';
+  token = '';
 
   constructor(private http: HttpClient) { }
 
@@ -19,6 +19,13 @@ export class BackendService {
     return this.http.post(`${this.url}/authentication`, body.toString(), {
       headers: new HttpHeaders()
         .set('Content-Type', 'application/x-www-form-urlencoded')
+    });
+  }
+
+  getEmployees(): Observable<any> {
+    return this.http.get(`${this.url}/vul/employees`, {
+      headers: new HttpHeaders()
+        .set('Authorization', `Bearer ${this.token}`)
     });
   }
 }

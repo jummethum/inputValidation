@@ -43,11 +43,13 @@
             <mat-icon>input</mat-icon>
             Login
           </button>
+
+          <div class="error" *ngIf="showError">
+            Login attempt unsuccessful!
+          </div>
         </div>
       </div>
     </form>
   </mat-grid-tile>
-  <mat-grid-tile *ngIf="showError">
-    Login attempt unsuccessful!
-  </mat-grid-tile>
+  <mat-grid-tile></mat-grid-tile>
 </mat-grid-list>

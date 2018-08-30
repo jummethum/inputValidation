@@ -39,9 +39,9 @@ public class VulnerableREST {
 	public ArrayList<Employee> getAllEmployees() {
 		ArrayList<Employee> list = new ArrayList<Employee>();
 
-		list.add(new Employee("Lokesh Gupta"));
-		list.add(new Employee("Alex Kolenchiskey"));
-		list.add(new Employee("David Kameron"));
+		list.add(new Employee("Lokesh Gupta", 32, "005"));
+		list.add(new Employee("Alex Kolenchiskey", 55, "003"));
+		list.add(new Employee("David Kameron", 77, "009"));
 		return list;
 	}
 

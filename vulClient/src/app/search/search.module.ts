@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 import { SearchComponent } from './search.component';
 import {MatDividerModule, MatFormFieldModule, MatIconModule, MatInputModule} from '@angular/material';
 import {FormsModule} from '@angular/forms';
-import { ResultsComponent } from './results.component';
 import {RouterModule} from '@angular/router';
+import { SecurityByPassModule } from '../security-by-pass/security-by-pass.module';
 
 @NgModule({
   imports: [
@@ -14,9 +14,10 @@ import {RouterModule} from '@angular/router';
     MatInputModule,
     MatFormFieldModule,
     MatIconModule,
-    MatDividerModule
+    MatDividerModule,
+    SecurityByPassModule
   ],
-  declarations: [SearchComponent, ResultsComponent],
-  exports: [SearchComponent, ResultsComponent]
+  declarations: [SearchComponent],
+  exports: [SearchComponent]
 })
 export class SearchModule { }

@@ -11,10 +11,7 @@ const routes: Routes = [
   { path: 'employees', component: EmployeesComponent },
   {
     path: 'search',
-    component: SearchComponent,
-    children: [
-      {path: ':term', component: ResultsComponent}
-    ]
+    component: SearchComponent
   }
 ];
 

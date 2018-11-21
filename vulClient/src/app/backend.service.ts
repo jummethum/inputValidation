@@ -8,9 +8,12 @@ export class BackendService {
 
   private url = 'http://localhost:8080/myapp/rest';
 
-  token = '';
-
   constructor(private http: HttpClient) { }
+
+  getToken(): String {
+    var currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    return currentUser.token;
+  }
 
   login(username, password): Observable<any> {
     const body = new HttpParams()
@@ -25,14 +28,14 @@ export class BackendService {
   getEmployees(): Observable<any> {
     return this.http.get(`${this.url}/vul/employees`, {
       headers: new HttpHeaders()
-        .set('Authorization', `Bearer ${this.token}`)
+        .set('Authorization', `Bearer ${this.getToken()}`)
     });
   }
 
   searchEmployee(term: string): Observable<any> {
     return this.http.get(`${this.url}/vul/search?searchString=${term}`, { responseType: 'text',
       headers: new HttpHeaders()
-        .set('Authorization', `Bearer ${this.token}`)
+        .set('Authorization', `Bearer ${this.getToken()}`)
     });
   }
 }

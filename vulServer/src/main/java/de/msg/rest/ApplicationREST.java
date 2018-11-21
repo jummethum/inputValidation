@@ -13,6 +13,6 @@ public class ApplicationREST extends ResourceConfig{
 		property(ServerProperties.BV_SEND_ERROR_IN_RESPONSE, true);
         packages("de.msg.rest");
         register(JacksonFeature.class);
-//        register(AuthenticationFilter.class);
+        register(AuthenticationFilter.class);
     }
 }

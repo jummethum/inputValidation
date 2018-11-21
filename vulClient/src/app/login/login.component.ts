@@ -26,9 +26,8 @@ export class LoginComponent implements OnInit {
   get f() { return this.loginForm.controls; }
 
   onSubmit() {
-    this.backendService.login(this.f.username.value, this.f.password.value).subscribe((token) => {
-        this.backendService.token = token.token;
-        console.log(token);
+    this.backendService.login(this.f.username.value, this.f.password.value).subscribe((response) => {
+        localStorage.setItem('currentUser', JSON.stringify({ token: response.token, name: 'currentUser' }));
         this.router.navigate(['/employees']);
     }, error => {
         this.showError = true;

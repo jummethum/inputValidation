@@ -3,7 +3,6 @@ import { Routes, RouterModule } from '@angular/router';
 import {LoginComponent} from './login/login.component';
 import {EmployeesComponent} from './employees/employees.component';
 import {SearchComponent} from './search/search.component';
-import {ResultsComponent} from './search/results.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },

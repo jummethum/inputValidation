@@ -27,7 +27,7 @@ public class VulnerableREST {
 	@Produces(MediaType.TEXT_HTML)
 	public Response search(@QueryParam("searchString") String term) {
 
-		String output = term + " not found. Please try a differnt search word.";
+		String output = term + " not found. Please try a different search word.";
 		return Response.status(200).entity(output).build();
 
 	}

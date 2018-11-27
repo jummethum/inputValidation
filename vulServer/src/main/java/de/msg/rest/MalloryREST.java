@@ -12,7 +12,7 @@ public class MalloryREST {
 	@Path("/authstealer")
 	@Produces(value = MediaType.TEXT_HTML)
 	public String test() {
-		System.out.println("Dr. Evil is here");
+		System.out.println("Mallory was here");
 		return "for (var key in localStorage) {\n" + 
 				"  console.log(key + ':' + localStorage[key]);\n" + 
 				"}"

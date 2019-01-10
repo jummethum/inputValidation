@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import {ActivatedRoute} from '@angular/router';
 import { BackendService } from '../backend.service';
 import {DomSanitizer} from '@angular/platform-browser';
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-search',
@@ -15,7 +16,7 @@ export class SearchComponent implements OnInit {
   result: string;
   private sub: any;
 
-  constructor(private backendService: BackendService, private router: Router, private route: ActivatedRoute, private sanitizer: DomSanitizer) { }
+  constructor(private backendService: BackendService, private router: Router, private route: ActivatedRoute, private sanitizer: DomSanitizer, private location: Location) { }
 
   ngOnInit() {
     this.sub = this.route.queryParams.subscribe(params => {
@@ -31,6 +32,7 @@ export class SearchComponent implements OnInit {
   }
 
   onSearchClicked() {
+    this.location.replaceState(`/search?q=${this.searchValue}`);
     this.search(this.searchValue);
   }
 

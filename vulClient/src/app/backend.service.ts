@@ -16,6 +16,7 @@ export class BackendService {
   } */
 
   login(username, password): Observable<any> {
+    console.log(this.url);
     const body = new HttpParams()
       .set('username', username)
       .set('password', password);

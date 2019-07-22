@@ -3,7 +3,10 @@ pipeline {
     stages {
         stage('Build and Deploy') { 
             steps { 
-                sh 'make' 
+				// backend
+                sh 'mvn clean install tomcat7:redeploy -f vulServer/pom.xml'
+				// frontend
+				sh 'npm run --prefix vulClient/ start'
             }
         }
     }
